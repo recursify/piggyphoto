@@ -8,22 +8,17 @@
 # Some functions return errors which can be fixed by retrying.
 # For example, capture_preview on Canon 550D fails the first time, but subsequent calls are OK.
 # Retries are performed on: camera.capture_preview, camera.capture_image and camera.init()
+import re
+import ctypes
+import ctypes.util
+
 retries = 1
 
 # This is run if gp_camera_init returns -60 (Could not lock the device) and retries >= 1.
 unmount_cmd = 'gvfs-mount -s gphoto2'
 
-#libgphoto2dll = 'libgphoto2.so.2.4.0'
-libgphoto2dll = 'libgphoto2.so'
-# 2.4.6
-#libgphoto2dll = '/usr/lib/libgphoto2.so'
-# 2.4.8
-#libgphoto2dll = '/usr/local/lib/libgphoto2.so.2'
-# SVN
-#libgphoto2dll = '/usr/local/lib/libgphoto2.so.6'
+libgphoto2dll = ctypes.util.find_library('gphoto2')
 
-import re
-import ctypes
 gp = ctypes.CDLL(libgphoto2dll)
 context = gp.gp_context_new()
 

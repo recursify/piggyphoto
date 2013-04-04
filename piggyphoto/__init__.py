@@ -20,6 +20,8 @@ unmount_cmd = 'gvfs-mount -s gphoto2'
 libgphoto2dll = ctypes.util.find_library('gphoto2')
 
 gp = ctypes.CDLL(libgphoto2dll)
+gp.gp_context_new.restype = ctypes.POINTER(ctypes.c_char)
+
 context = gp.gp_context_new()
 
 def library_version(verbose = True):

@@ -349,10 +349,10 @@ class camera(object):
                 self._list_config(c, cfglist, path + "." + c.name)
         else:
             print path, "=", widget.value
-            cfglist.append(path)
+            cfglist[path] = widget.value
 
     def list_config(self):
-        cfglist = []
+        cfglist = {}
         cfg = self.config
         self._list_config(cfg, cfglist, cfg.name)
         return cfglist
@@ -649,7 +649,9 @@ class cameraWidget(object):
         if self.type in [GP_WIDGET_MENU, GP_WIDGET_RADIO, GP_WIDGET_TEXT]:
             value = ctypes.cast(value.value, ctypes.c_char_p)
         elif self.type == GP_WIDGET_RANGE:
-            value = ctypes.cast(value.value, ctypes.c_float_p)
+            pass
+            # This was breaking...
+            #value = ctypes.cast(value.value, ctypes.c_float_p)
         elif self.type in [GP_WIDGET_TOGGLE, GP_WIDGET_DATE]:
             #value = ctypes.cast(value.value, ctypes.c_int_p)
             pass
